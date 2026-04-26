@@ -14,43 +14,58 @@ SiPeKa (Employee Payroll System) is a system used by companies to manage employe
   * [Author](#author)
   * [License](#license)
 
-## Configuration and Setup
 
-In order to run this project locally, simply fork and clone the repository or download as zip and unzip on your machine.
+## Setup Instructions
 
-- Open the project in your prefered code editor.
-- Go to terminal -> New terminal (If you are using VS code)
-- Split your terminal into two (run the Frontend on one terminal and the server on the other terminal)
+### 1. Clone the repository
+git clone https://github.com/Namitakumari1/mern-employee-salary-management.git
+cd mern-employee-salary-management
 
-In the first terminal
+---
 
-```
-$ cd Frontend
-$ npm install (to install Frontend-side dependencies)
-$ npm run dev(to start the Frontend)
-```
+### 2. Backend Setup
 
-In the second terminal
+cd Backend  
+npm install  
 
-- Create your MySQL database, which you will use as your database
-- Supply the following credentials
+Create a .env file inside Backend folder and add:
 
-```
-#  --- .env  ---
+DB_NAME=your_database_name  
+DB_USER=root  
+DB_PASSWORD=your_password  
+DB_HOST=localhost  
+PORT=5000  
+SESS_SECRET=your_secret 
 
-APP_PORT =5000
-SESS_SECRET =
+### 2.1 Database Setup
 
-```
+Create a MySQL database before running backend:
 
-```
-# --- Terminal ---
+Example:
+CREATE DATABASE employee_salary_db;
 
-$ cd Backend
-$ npm install (to install Backend-side dependencies)
-$ npm start (to start the Backend)
+Start backend server:
 
-```
+npm start  
+
+---
+
+### 3. Frontend Setup
+
+Open a new terminal:
+
+cd Frontend  
+npm install  
+npm run dev  
+
+---
+
+### 4. Run Application
+
+Frontend: http://localhost:5173 or http://localhost:5175
+Backend: http://localhost:5000  
+
+Open the frontend in browser, login with valid credentials, and start using the system.
 
 ##  Key Features
 
@@ -70,6 +85,7 @@ $ npm start (to start the Backend)
 - Print employees/staff salary reports from personal accounts
 - 404 Page and many more
 - Responsive Design
+
 
 <br/>
 
