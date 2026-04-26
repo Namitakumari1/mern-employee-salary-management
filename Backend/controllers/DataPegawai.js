@@ -7,7 +7,7 @@ export const getDataPegawai = async (req, res) => {
     try {
         const response = await DataPegawai.findAll({
             attributes: [
-                'id', 'nik', 'nama_pegawai',
+                'id', 'id_pegawai', 'nik', 'nama_pegawai',
                 'jenis_kelamin', 'jabatan', 'tanggal_masuk',
                 'status', 'photo', 'hak_akses'
             ]
@@ -88,66 +88,45 @@ export const getDataPegawaiByName = async (req, res) => {
     }
 }
 
-//  method untuk tambah data Pegawai
+// Create new employee (simplified version without file upload)
 export const createDataPegawai = async (req, res) => {
     const {
         nik, nama_pegawai,
-        username, password, confPassword, jenis_kelamin,
-        jabatan, tanggal_masuk,
-        status, hak_akses
+        username, password, confPassword,
+        jenis_kelamin, jabatan,
+        tanggal_masuk, status, hak_akses
     } = req.body;
 
+    // Validate password match
     if (password !== confPassword) {
         return res.status(400).json({ msg: "Password dan Konfirmasi Password Tidak Cocok" });
     }
 
-    if (!req.files || !req.files.photo) {
-        return res.status(400).json({ msg: "Upload Foto Gagal Silahkan Upload Foto Ulang" });
-    }
-
-    const file = req.files.photo;
-    const fileSize = file.data.length;
-    const ext = path.extname(file.name);
-    const fileName = file.md5 + ext;
-    const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
-    const allowedTypes = ['.png', '.jpg', '.jpeg'];
-
-    if (!allowedTypes.includes(ext.toLowerCase())) {
-        return res.status(422).json({ msg: "File Foto Tidak Sesuai Dengan Format" });
-    }
-
-    if (fileSize > 2000000) {
-        return res.status(422).json({ msg: "Ukuran Gambar Harus Kurang Dari 2 MB" });
-    }
-
-    file.mv(`./public/images/${fileName}`, async (err) => {
-        if (err) {
-            return res.status(500).json({ msg: err.message });
-        }
-
+    try {
+        // Hash password before saving
         const hashPassword = await argon2.hash(password);
 
-        try {
-            await DataPegawai.create({
-                nik: nik,
-                nama_pegawai: nama_pegawai,
-                username: username,
-                password: hashPassword,
-                jenis_kelamin: jenis_kelamin,
-                jabatan: jabatan,
-                tanggal_masuk: tanggal_masuk,
-                status: status,
-                photo: fileName,
-                url: url,
-                hak_akses: hak_akses
-            });
+        // Create new employee record
+        await DataPegawai.create({
+            nik,
+            nama_pegawai,
+            username,
+            password: hashPassword,
+            jenis_kelamin,
+            jabatan,
+            tanggal_masuk,
+            status,
+            photo: "default.jpg", // default image
+            url: "",
+            hak_akses
+        });
 
-            res.status(201).json({ success: true, message: "Registrasi Berhasil" });
-        } catch (error) {
-            console.log(error.message);
-            res.status(500).json({ success: false, message: error.message });
-        }
-    });
+        res.status(201).json({ msg: "Registrasi Berhasil" });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
+    }
 };
 
 

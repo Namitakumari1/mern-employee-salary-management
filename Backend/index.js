@@ -10,22 +10,20 @@ import FileUpload from 'express-fileupload';
 import UserRoute from './routes/UserRoute.js';
 import AuthRoute from './routes/AuthRoute.js';
 
+// Load env first
+dotenv.config();
+
 const app = express();
 
+// Session store
 const sessionStore = SequelizeStore(session.Store);
 const store = new sessionStore({
     db: db
 });
 
-/* (async() => {
-    await db.sync();
-})(); */
-
-dotenv.config();
-
 // Middleware
 app.use(session({
-    secret: process.env.SESS_SECRET,
+    secret: process.env.SESS_SECRET || "secret123",
     resave: false,
     saveUninitialized: true,
     store: store,
@@ -34,22 +32,35 @@ app.use(session({
     }
 }));
 
-app.use(cors ({
+app.use(cors({
     credentials: true,
-    origin: 'http://localhost:5173'
+    origin: ['http://localhost:5173', 'http://localhost:5175']
 }));
 
-
 app.use(express.json());
-
 app.use(FileUpload());
 app.use(express.static("public"));
 
+// Routes
 app.use(UserRoute);
 app.use(AuthRoute);
 
-// store.sync();
+// Correct DB connection + sync
+(async () => {
+  try {
+    await db.authenticate();
+    console.log("Database Connected");
 
-app.listen(process.env.APP_PORT, () => {
-    console.log('Server up and running...');
+    // Sync database and create/update tables automatically
+    await db.sync({ alter: true });
+    console.log("Tables synced");
+
+  } catch (error) {
+    console.log("DB Error:", error);
+  }
+})();
+
+// Start server
+app.listen(5000, () => {
+    console.log('Server running on port 5000');
 });

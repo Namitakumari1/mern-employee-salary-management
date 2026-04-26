@@ -64,6 +64,10 @@ import {
     viewDataGajiSinglePegawaiByYear
 } from '../controllers/Pegawai.js';
 
+//import OvertimeController
+import { createOvertime } from "../controllers/OvertimeController.js";
+
+
 const router = express.Router();
 
 // Admin Route :
@@ -74,7 +78,10 @@ router.get('/data_pegawai', verifyUser, adminOnly, getDataPegawai);
 router.get('/data_pegawai/id/:id', verifyUser, adminOnly, getDataPegawaiByID);
 router.get('/data_pegawai/nik/:nik', verifyUser, adminOnly, getDataPegawaiByNik);
 router.get('/data_pegawai/name/:name', verifyUser, getDataPegawaiByName);
-router.post('/data_pegawai',verifyUser, adminOnly, createDataPegawai);
+
+//router.post('/data_pegawai',verifyUser, adminOnly, createDataPegawai);
+router.post('/data_pegawai', createDataPegawai);
+
 router.patch('/data_pegawai/:id', verifyUser, adminOnly, updateDataPegawai);
 router.delete('/data_pegawai/:id', verifyUser, adminOnly, deleteDataPegawai);
 router.patch('/data_pegawai/:id/change_password', verifyUser, adminOnly, changePassword);
@@ -134,6 +141,10 @@ router.get('/data_gaji/year/:year', verifyUser, viewDataGajiSinglePegawaiByYear)
 router.patch('/change_password', verifyUser, changePassword);
 /* ==== Logout ==== */
 router.delete('/logout', LogOut);
+
+
+//Overtime Route(New Feature Added)
+router.post("/overtime", verifyUser, adminOnly, createOvertime);
 
 
 export default router;
