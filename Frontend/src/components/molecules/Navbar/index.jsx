@@ -22,6 +22,7 @@ export default function Navbar() {
         { title: "Beranda", link: "/", icon: <FaHome /> },
         { title: "Tentang", link: "/tentang", icon: <RiFolderInfoFill /> },
         { title: "Kontak", link: "/kontak", icon: <RiContactsBook2Fill /> },
+        { title: "Overtime", link: "/overtime" }//added this
     ];
 
     const activeLink = ({ isActive }) => {

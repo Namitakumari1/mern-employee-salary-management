@@ -25,7 +25,7 @@ In order to run this project locally, simply fork and clone the repository or do
 In the first terminal
 
 ```
-$ cd Fronted
+$ cd Frontend
 $ npm install (to install Frontend-side dependencies)
 $ npm run dev(to start the Frontend)
 ```
@@ -73,9 +73,40 @@ $ npm start (to start the Backend)
 
 <br/>
 
+## Added Feature (Overtime Management)
+
+This project has been extended with an Overtime Management feature.
+
+New functionality includes:
+
+- Add overtime entry for employees
+- Validation rules:
+  - Hours must be between 1 and 6
+  - Cannot add future date
+  - Cannot add records older than 7 days
+  - Prevent duplicate entry for same employee and date
+  - Monthly overtime limit is 60 hours
+- Connected with existing employee data (id_pegawai)
+- Integrated into admin dashboard sidebar
+
+This feature helps track and control employee overtime efficiently.
+
 ##  Technologies used
 
 This project was created using the following technologies.
+
+## AI Tools Used
+
+- ChatGPT: Used for debugging, backend validation logic, and feature implementation (Overtime module)
+
+## HRMS Chosen
+
+Employee Salary Management System (Payroll System) was chosen because it covers real-world HR operations like salary, attendance, and overtime tracking.
+
+## Notes
+
+- Overtime feature was implemented as an additional module beyond existing functionality
+- Some validations were added for better data integrity and real-world use case handling
 
 ####  Frontend
 

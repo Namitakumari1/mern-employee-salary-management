@@ -33,7 +33,9 @@ import {
   DataGajiPegawai,
   UbahPasswordPegawai,
   DataPotongan
-} from '../../pages'
+} from '../../pages';
+
+import Overtime from "../../pages/Overtime/Overtime";//added
 
 const AppRoutes = () => {
   return (
@@ -44,6 +46,8 @@ const AppRoutes = () => {
       <Route path='/kontak' element={<Contact />} />
       <Route path='/login' element={<Login />} />
       <Route path='/dashboard' element={<Dashboard />} />
+
+      <Route path="/overtime" element={<Overtime />} />{/*Added this */}
 
       {/* Route Admin */}
       {/* Master Data Admin */}
